@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changelogs>
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>1.1.0</version>
+
+        <addition>
+            <item>Adds configurable primary and optional secondary Joomla content languages.</item>
+            <item>Supports any two installed content languages instead of fixed Russian and English settings.</item>
+            <item>Supports single-language sites by leaving the secondary language and category empty.</item>
+        </addition>
+
+        <change>
+            <item>Migrates existing 1.0.0 Russian and English settings automatically to the new language slots during update.</item>
+        </change>
+
+        <note>
+            <item>Existing categories, compact-module link targets, the date field, category assignments and saved date values are preserved during migration.</item>
+            <item>English and Russian remain available as administrator and site interface translations; they are no longer hard-coded content-language requirements.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>1.0.0</version>
+
+        <change>
+            <item>Promotes the fully tested alpha7 build to the first stable BSL Daily Content release.</item>
+        </change>
+
+        <note>
+            <item>Verified clean installation, in-place update, multilingual full pages and compact modules, and migration from BSL Daily Reflections without loss of saved dates.</item>
+            <item>No functional code changes from 0.1.0-alpha7.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha7</version>
+
+        <addition>
+            <item>Automatically opens the Daily Content tab when an article is assigned to a configured daily-content category.</item>
+        </addition>
+
+        <note>
+            <item>The behavior applies whenever the category is changed in the article editor, not only when a new article is created.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha6</version>
+
+        <change>
+            <item>Renames the optional menu-item settings as compact-module link targets.</item>
+            <item>Changes the English compact-module link text from Read more to Read full entry.</item>
+            <item>Clarifies the plugin description and installation guidance.</item>
+        </change>
+
+        <note>
+            <item>Internal parameter names remain unchanged so existing alpha5 settings are preserved during update.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha5</version>
+
+        <change>
+            <item>Retains Joomla's standard article-editor appearance instead of adding extension-specific administrator tab styling.</item>
+        </change>
+
+        <note>
+            <item>Duplicate-date validation, migration, shortcodes, and content rendering are unchanged.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha4</version>
+
+        <fix>
+            <item>Applies the soft green Daily Content tab background reliably after Joomla renders the custom fields dynamically.</item>
+        </fix>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha3</version>
+
+        <addition>
+            <item>Prevents duplicate DD-MM dates within the same configured category.</item>
+            <item>Adds a soft green background to the Daily Content field tab in the article editor.</item>
+            <item>Imports empty settings safely from an installed BSL Daily Reflections plugin without changing the date field or saved values.</item>
+        </addition>
+
+        <note>
+            <item>The legacy plugin remains installed and enabled during migration verification.</item>
+            <item>Legacy shortcodes must be replaced before the legacy plugin is disabled.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha2</version>
+
+        <fix>
+            <item>Added an explicit Select option to both category settings to prevent automatic Uncategorised selection.</item>
+        </fix>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>0.1.0-alpha1</version>
+
+        <addition>
+            <item>Automatic setup of the required bsl-daily-date custom field.</item>
+            <item>Full-page {bsldailycontent} shortcode with date navigation and multilingual article lookup.</item>
+            <item>Server-rendered {bsldailycontenttoday} shortcode for Today in... Custom modules.</item>
+            <item>Optional language-specific Read more targets selected from published Joomla menu items.</item>
+            <item>English and Russian interface strings.</item>
+        </addition>
+
+        <note>
+            <item>No code is required inside the Custom module beyond the shortcode.</item>
+            <item>This alpha release starts the BSL Daily Content product line.</item>
+        </note>
+    </changelog>
+</changelogs>

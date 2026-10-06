@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" method="upgrade">
+    <name>PLG_CONTENT_BSLDAILYCONTENT</name>
+    <author>Vasilyev Alexander</author>
+    <creationDate>2026-10-05</creationDate>
+    <copyright>Copyright (C) 2026 Vasilyev Alexander. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <authorEmail>info@bsl-world.ru</authorEmail>
+    <authorUrl>https://bsl-world.ru</authorUrl>
+    <version>1.1.0</version>
+    <description>PLG_CONTENT_BSLDAILYCONTENT_XML_DESCRIPTION</description>
+    <namespace path="src">BSLWorld\Plugin\Content\Bsldailycontent</namespace>
+    <scriptfile>script.php</scriptfile>
+    <changelogurl>https://bsl-world.ru/downloads/bsl-daily-content/changelog.xml</changelogurl>
+    <files>
+        <filename>LICENSE.txt</filename>
+        <filename>script.php</filename>
+        <folder plugin="bsldailycontent">services</folder>
+        <folder>src</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/plg_content_bsldailycontent.ini</language>
+        <language tag="en-GB">en-GB/plg_content_bsldailycontent.sys.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_bsldailycontent.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_bsldailycontent.sys.ini</language>
+    </languages>
+    <media destination="plg_content_bsldailycontent" folder="media">
+        <folder>js</folder>
+    </media>
+    <config>
+        <fields name="params">
+            <fieldset
+                name="setup"
+                label="PLG_CONTENT_BSLDAILYCONTENT_FIELDSET_SETUP_LABEL"
+                addfieldprefix="BSLWorld\Plugin\Content\Bsldailycontent\Field"
+            >
+                <field
+                    name="setup"
+                    type="setup"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_SETUP_LABEL"
+                />
+                <field
+                    name="date_field_id"
+                    type="hidden"
+                    default="0"
+                    validate="setup"
+                    addruleprefix="BSLWorld\Plugin\Content\Bsldailycontent\Rule"
+                />
+            </fieldset>
+            <fieldset
+                name="primary"
+                label="PLG_CONTENT_BSLDAILYCONTENT_FIELDSET_PRIMARY_LABEL"
+            >
+                <field
+                    name="primary_language"
+                    type="contentlanguage"
+                    required="true"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_LANGUAGE_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_LANGUAGE_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+                <field
+                    name="primary_category_id"
+                    type="category"
+                    extension="com_content"
+                    published="1"
+                    default="0"
+                    required="true"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_CATEGORY_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_CATEGORY_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+                <field
+                    name="primary_full_page_item_id"
+                    type="menuitem"
+                    client_id="0"
+                    published="1"
+                    default="0"
+                    required="false"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_FULL_PAGE_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_PRIMARY_FULL_PAGE_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+            </fieldset>
+            <fieldset
+                name="secondary"
+                label="PLG_CONTENT_BSLDAILYCONTENT_FIELDSET_SECONDARY_LABEL"
+            >
+                <field
+                    name="secondary_language"
+                    type="contentlanguage"
+                    required="false"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_LANGUAGE_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_LANGUAGE_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+                <field
+                    name="secondary_category_id"
+                    type="category"
+                    extension="com_content"
+                    published="1"
+                    default="0"
+                    required="false"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_CATEGORY_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_CATEGORY_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+                <field
+                    name="secondary_full_page_item_id"
+                    type="menuitem"
+                    client_id="0"
+                    published="1"
+                    default="0"
+                    required="false"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_FULL_PAGE_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_SECONDARY_FULL_PAGE_DESC"
+                >
+                    <option value="">JSELECT</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server
+            type="extension"
+            priority="1"
+            name="BSL Daily Content Updates"
+        >https://bsl-world.ru/downloads/bsl-daily-content/updates.xml</server>
+    </updateservers>
+</extension>

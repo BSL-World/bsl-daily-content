@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updates>
+    <update>
+        <name>BSL Daily Content</name>
+        <description>Daily calendar content pages and optional Today in... blocks for Joomla.</description>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <client>site</client>
+        <version>1.1.0</version>
+        <infourl title="BSL Daily Content">https://bsl-world.ru/</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;file=plg_content_bsldailycontent-1.1.0.zip&amp;source=updater&amp;download=1</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <sha256>7fb1afe3be24fcde9e11b828bc3d66e2b79b005bb16e3dbce0b98357b7eadc72</sha256>
+        <maintainer>Vasilyev Alexander</maintainer>
+        <maintainerurl>https://bsl-world.ru/</maintainerurl>
+        <targetplatform name="joomla" version="5\.[0-9]+" />
+        <php_minimum>8.3</php_minimum>
+    </update>
+
+    <update>
+        <name>BSL Daily Content</name>
+        <description>Daily calendar content pages and optional Today in... blocks for Joomla.</description>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <client>site</client>
+        <version>1.1.0</version>
+        <infourl title="BSL Daily Content">https://bsl-world.ru/</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;file=plg_content_bsldailycontent-1.1.0.zip&amp;source=updater&amp;download=1</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <sha256>7fb1afe3be24fcde9e11b828bc3d66e2b79b005bb16e3dbce0b98357b7eadc72</sha256>
+        <maintainer>Vasilyev Alexander</maintainer>
+        <maintainerurl>https://bsl-world.ru/</maintainerurl>
+        <targetplatform name="joomla" version="6\.[0-9]+" />
+        <php_minimum>8.3</php_minimum>
+    </update>
+
+    <update>
+        <name>BSL Daily Content</name>
+        <description>Daily calendar content pages and optional Today in... blocks for Joomla.</description>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <client>site</client>
+        <version>1.0.0</version>
+        <infourl title="BSL Daily Content">https://bsl-world.ru/</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;file=plg_content_bsldailycontent-1.0.0.zip&amp;source=updater&amp;download=1</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <sha256>b49eda6c191300e245465c333bf3af9caba3dc496d16f9f6315813e25d0ea302</sha256>
+        <maintainer>Vasilyev Alexander</maintainer>
+        <maintainerurl>https://bsl-world.ru/</maintainerurl>
+        <targetplatform name="joomla" version="6\.[0-9]+" />
+        <php_minimum>8.3</php_minimum>
+    </update>
+</updates>
