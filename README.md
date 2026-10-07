@@ -92,4 +92,12 @@ BSL Daily Content grew out of a real need on [BSL-World.ru](https://bsl-world.ru
 BSL stands for **Beautiful Sober Life**.
 
 Website: https://bsl-world.ru  
-Email: info@bsl-world.ru
+Email: soft@BSL-World.ru
+
+## Support the project
+
+If BSL Daily Content is useful to you, you can support the author and the continued development of BSL-World projects.
+
+[Support through CloudTips](https://pay.cloudtips.ru/p/5bea09f2)
+
+**BTC:** `bc1q3l8pgrj34re0q3whmjl96dgp3kgr623afnd8h3`
