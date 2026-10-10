@@ -50,6 +50,18 @@ Place this shortcode in a Joomla Custom module to render today's compact block:
 
 The shortcode should be stored as plain text. No PHP, iframe, script, or custom HTML player code is required.
 
+## Caching and midnight rollover
+
+BSL Daily Content does not create a separate cache for the `{bsldailycontenttoday}` block. The current date is determined using the Joomla site time zone whenever Joomla renders the module content.
+
+However, the shortcode is processed inside a Joomla Custom module. If **Advanced → Caching** is set to **Use Global**, Joomla may continue serving the block generated before midnight until the configured **Cache Time** expires.
+
+To make today's entry change immediately after midnight, set the Custom module option to:
+
+**Advanced → Caching → No Caching**
+
+A page already open in a browser does not refresh automatically at midnight. The visitor must reload it. Full-page caching, server-side caching and CDN caching may also delay the appearance of the new entry and should be configured separately.
+
 ## Adding daily content
 
 1. Create or edit an article in one of the configured categories.
