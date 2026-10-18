@@ -4,6 +4,34 @@
         <element>bsldailycontent</element>
         <type>plugin</type>
         <folder>content</folder>
+        <version>1.3.0</version>
+
+        <addition>
+            <item>Adds a compact monthly calendar inside a collapsible Date control.</item>
+            <item>Marks dates with available published articles and highlights the selected date and today.</item>
+            <item>Adds configurable calendar background opacity, overall size and bold text.</item>
+            <item>Adds a compact Aa control for visitor-selected calendar size and bold text.</item>
+            <item>Stores visitor appearance preferences locally in the browser and provides a Reset action.</item>
+            <item>Adds a translated visual tooltip for the Aa control.</item>
+        </addition>
+
+        <change>
+            <item>Replaces the day and month dropdown lists and the Show button.</item>
+            <item>Preserves the open or closed calendar state while navigating between dates.</item>
+            <item>Loads calendar data and appearance settings without reusing stale browser or Joomla page-cache responses.</item>
+            <item>Closes the Aa appearance panel when the visitor clicks outside it.</item>
+        </change>
+
+        <note>
+            <item>Existing date links, language switching, articles, JComments integration, navigation and saved settings are preserved.</item>
+            <item>Verified on Joomla 5 and Joomla 6.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
         <version>1.1.0</version>
 
         <addition>

@@ -29,6 +29,152 @@
         return `${padNumber(now.getDate())}-${padNumber(now.getMonth() + 1)}`;
     };
 
+    const preserveDatePickerState = (datePicker) => {
+        const storageKey = `bsl-daily-content:date-picker:${window.location.pathname}`;
+
+        try {
+            datePicker.open = window.sessionStorage.getItem(storageKey) === 'open';
+        } catch (error) {
+            // The calendar still works when session storage is unavailable.
+        }
+
+        datePicker.addEventListener('toggle', () => {
+            try {
+                window.sessionStorage.setItem(
+                    storageKey,
+                    datePicker.open ? 'open' : 'closed',
+                );
+            } catch (error) {
+                // The open state simply will not persist across navigation.
+            }
+        });
+    };
+
+    const initializeAppearanceControls = (container) => {
+        const appearance = container.querySelector('[data-bsl-appearance]');
+        const sizeButtons = Array.from(container.querySelectorAll('[data-bsl-size]'));
+        const boldButton = container.querySelector('[data-bsl-bold]');
+        const resetButton = container.querySelector('[data-bsl-reset]');
+        const storageKey = 'bsl-daily-content:appearance';
+        const validSizes = ['small', 'medium', 'large'];
+        let defaults = {
+            size: validSizes.find((size) => (
+                container.classList.contains(`calendar-size-${size}`)
+            )) || 'medium',
+            bold: container.classList.contains('is-calendar-bold'),
+        };
+        let preferences = {};
+
+        if (!appearance || sizeButtons.length !== 3 || !boldButton || !resetButton) {
+            return {
+                updateDefaults: () => {},
+            };
+        }
+
+        try {
+            const stored = JSON.parse(window.localStorage.getItem(storageKey) || '{}');
+
+            if (validSizes.includes(stored.size)) {
+                preferences.size = stored.size;
+            }
+
+            if (typeof stored.bold === 'boolean') {
+                preferences.bold = stored.bold;
+            }
+        } catch (error) {
+            // The controls still work for the current page when storage is unavailable.
+        }
+
+        const effectiveAppearance = () => ({
+            size: validSizes.includes(preferences.size)
+                ? preferences.size
+                : defaults.size,
+            bold: typeof preferences.bold === 'boolean'
+                ? preferences.bold
+                : defaults.bold,
+        });
+
+        const savePreferences = () => {
+            try {
+                window.localStorage.setItem(storageKey, JSON.stringify(preferences));
+            } catch (error) {
+                // The selected appearance simply will not persist across pages.
+            }
+        };
+
+        const applyAppearance = () => {
+            const current = effectiveAppearance();
+
+            container.classList.remove(
+                'calendar-size-small',
+                'calendar-size-medium',
+                'calendar-size-large',
+            );
+            container.classList.add(`calendar-size-${current.size}`);
+            container.classList.toggle('is-calendar-bold', current.bold);
+
+            sizeButtons.forEach((button) => {
+                const isActive = button.dataset.bslSize === current.size;
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+
+            boldButton.setAttribute('aria-pressed', String(current.bold));
+            resetButton.disabled = Object.keys(preferences).length === 0;
+        };
+
+        sizeButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const size = button.dataset.bslSize;
+
+                if (!validSizes.includes(size)) {
+                    return;
+                }
+
+                preferences.size = size;
+                savePreferences();
+                applyAppearance();
+            });
+        });
+
+        boldButton.addEventListener('click', () => {
+            preferences.bold = !effectiveAppearance().bold;
+            savePreferences();
+            applyAppearance();
+        });
+
+        resetButton.addEventListener('click', () => {
+            preferences = {};
+
+            try {
+                window.localStorage.removeItem(storageKey);
+            } catch (error) {
+                // The in-memory reset still applies to the current page.
+            }
+
+            applyAppearance();
+        });
+
+        document.addEventListener('click', (event) => {
+            if (appearance.open && !appearance.contains(event.target)) {
+                appearance.open = false;
+            }
+        });
+
+        applyAppearance();
+
+        return {
+            updateDefaults: (size, bold) => {
+                if (validSizes.includes(size)) {
+                    defaults.size = size;
+                }
+
+                defaults.bold = Boolean(bold);
+                applyAppearance();
+            },
+        };
+    };
+
     const navigateToDate = (date) => {
         const url = new URL(window.location.href);
         url.searchParams.set('date', date);
@@ -363,37 +509,151 @@
     };
 
     const initialize = (container) => {
-        const daySelect = container.querySelector('[data-bsl-day]');
-        const monthSelect = container.querySelector('[data-bsl-month]');
-        const showButton = container.querySelector('[data-bsl-show]');
+        const datePicker = container.querySelector('[data-bsl-date-picker]');
+        const calendar = container.querySelector('[data-bsl-calendar]');
         const previousButton = container.querySelector('[data-bsl-previous]');
         const nextButton = container.querySelector('[data-bsl-next]');
         const content = container.querySelector('[data-bsl-content]');
         const months = JSON.parse(container.dataset.months || '[]');
         const commentsStrings = JSON.parse(container.dataset.commentsStrings || '{}');
 
-        if (!daySelect || !monthSelect || !showButton || !previousButton || !nextButton || !content) {
+        if (
+            !datePicker
+            || !calendar
+            || !previousButton
+            || !nextButton
+            || !content
+            || months.length !== 12
+        ) {
             return;
         }
 
-        for (let day = 1; day <= 31; day++) {
-            const option = document.createElement('option');
-            option.value = String(day);
-            option.textContent = String(day);
-            daySelect.appendChild(option);
-        }
-
-        months.forEach((monthName, index) => {
-            const option = document.createElement('option');
-            option.value = String(index + 1);
-            option.textContent = monthName;
-            monthSelect.appendChild(option);
-        });
+        preserveDatePickerState(datePicker);
+        const appearanceControls = initializeAppearanceControls(container);
 
         const selectedDate = requestedDateFromUrl() || currentDate();
         const parsedDate = parseDate(selectedDate);
-        daySelect.value = String(parsedDate.day);
-        monthSelect.value = String(parsedDate.month);
+        const now = new Date();
+        const displayedYear = now.getFullYear();
+        let displayedMonth = parsedDate.month;
+        let availableDates = new Set();
+        const locale = document.documentElement.lang || navigator.language || 'en-GB';
+        const weekdayFormatter = new Intl.DateTimeFormat(locale, {
+            weekday: 'short',
+            timeZone: 'UTC',
+        });
+        const dateFormatter = new Intl.DateTimeFormat(locale, {
+            day: 'numeric',
+            month: 'long',
+            timeZone: 'UTC',
+        });
+        const weekdayNames = Array.from({ length: 7 }, (_, index) => (
+            weekdayFormatter.format(new Date(Date.UTC(2024, 0, index + 1)))
+        ));
+
+        const renderCalendar = () => {
+            const firstDay = new Date(displayedYear, displayedMonth - 1, 1);
+            const firstWeekday = (firstDay.getDay() + 6) % 7;
+            const daysInMonth = new Date(displayedYear, displayedMonth, 0).getDate();
+            const today = currentDate();
+            const fragment = document.createDocumentFragment();
+            const header = document.createElement('div');
+            const previousMonthButton = document.createElement('button');
+            const title = document.createElement('div');
+            const nextMonthButton = document.createElement('button');
+            const grid = document.createElement('div');
+
+            header.className = 'bsl-daily-content__calendar-header';
+            previousMonthButton.type = 'button';
+            previousMonthButton.className = 'bsl-daily-content__calendar-month-button';
+            previousMonthButton.textContent = '‹';
+            previousMonthButton.setAttribute(
+                'aria-label',
+                container.dataset.previousMonthLabel || '',
+            );
+            title.className = 'bsl-daily-content__calendar-title';
+            title.textContent = months[displayedMonth - 1];
+            title.setAttribute('aria-live', 'polite');
+            nextMonthButton.type = 'button';
+            nextMonthButton.className = 'bsl-daily-content__calendar-month-button';
+            nextMonthButton.textContent = '›';
+            nextMonthButton.setAttribute(
+                'aria-label',
+                container.dataset.nextMonthLabel || '',
+            );
+
+            previousMonthButton.addEventListener('click', () => {
+                displayedMonth -= 1;
+
+                if (displayedMonth === 0) {
+                    displayedMonth = 12;
+                }
+
+                renderCalendar();
+            });
+            nextMonthButton.addEventListener('click', () => {
+                displayedMonth += 1;
+
+                if (displayedMonth === 13) {
+                    displayedMonth = 1;
+                }
+
+                renderCalendar();
+            });
+
+            header.append(previousMonthButton, title, nextMonthButton);
+            grid.className = 'bsl-daily-content__calendar-grid';
+            grid.setAttribute('role', 'grid');
+
+            weekdayNames.forEach((weekday) => {
+                const label = document.createElement('div');
+                label.className = 'bsl-daily-content__calendar-weekday';
+                label.textContent = weekday;
+                label.setAttribute('role', 'columnheader');
+                grid.appendChild(label);
+            });
+
+            for (let index = 0; index < firstWeekday; index += 1) {
+                const emptyCell = document.createElement('span');
+                emptyCell.className = 'bsl-daily-content__calendar-empty';
+                emptyCell.setAttribute('aria-hidden', 'true');
+                grid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day += 1) {
+                const date = `${padNumber(day)}-${padNumber(displayedMonth)}`;
+                const dateObject = new Date(Date.UTC(displayedYear, displayedMonth - 1, day));
+                const button = document.createElement('button');
+
+                button.type = 'button';
+                button.className = 'bsl-daily-content__calendar-day';
+                button.textContent = String(day);
+                button.setAttribute('role', 'gridcell');
+                button.setAttribute('aria-label', dateFormatter.format(dateObject));
+
+                if (availableDates.has(date)) {
+                    button.classList.add('is-available');
+                }
+
+                if (date === selectedDate) {
+                    button.classList.add('is-selected');
+                    button.setAttribute('aria-selected', 'true');
+                }
+
+                if (date === today && displayedYear === now.getFullYear()) {
+                    button.classList.add('is-today');
+                    button.setAttribute('aria-current', 'date');
+                }
+
+                button.addEventListener('click', () => navigateToDate(date));
+                grid.appendChild(button);
+            }
+
+            fragment.append(header, grid);
+            calendar.replaceChildren(fragment);
+        };
+
+        renderCalendar();
         preserveDateInLanguageSwitcher(selectedDate);
 
         const setNavigation = (button, date) => {
@@ -413,8 +673,10 @@
                 const endpoint = new URL(container.dataset.endpoint, window.location.origin);
                 endpoint.searchParams.set('date', date);
                 endpoint.searchParams.set('format', 'json');
+                endpoint.searchParams.set('_bsl', String(Date.now()));
 
                 const response = await fetch(endpoint.toString(), {
+                    cache: 'no-store',
                     headers: { Accept: 'application/json' },
                 });
 
@@ -430,6 +692,28 @@
                 if (!data || typeof data.success !== 'boolean') {
                     throw new Error('Invalid BSL Daily Content response.');
                 }
+
+                const opacity = Number.parseInt(
+                    data.calendar_background_opacity,
+                    10,
+                );
+
+                if (Number.isFinite(opacity)) {
+                    container.style.setProperty(
+                        '--bsl-daily-content-background-opacity',
+                        String(Math.max(0, Math.min(100, opacity)) / 100),
+                    );
+                }
+
+                appearanceControls.updateDefaults(
+                    String(data.calendar_size || ''),
+                    data.calendar_bold === true || data.calendar_bold === 1,
+                );
+
+                availableDates = new Set(
+                    Array.isArray(data.available_dates) ? data.available_dates : [],
+                );
+                renderCalendar();
 
                 if (!data.success) {
                     content.textContent = container.dataset.notFoundMessage || '';
@@ -457,10 +741,6 @@
                 console.error('BSL Daily Content request failed:', error);
             }
         };
-
-        showButton.addEventListener('click', () => {
-            navigateToDate(`${padNumber(daySelect.value)}-${padNumber(monthSelect.value)}`);
-        });
 
         previousButton.addEventListener('click', () => {
             if (previousButton.dataset.date) {

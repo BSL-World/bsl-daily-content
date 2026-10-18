@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.3.0 — 2026-10-18
+
+### Added
+
+- Compact responsive monthly calendar inside a collapsible Date control.
+- Visual markers for dates whose articles are currently available to the visitor.
+- Separate highlighting for the selected date and today's date.
+- Calendar background opacity slider with a live percentage value.
+- Small, Medium and Large sizes for the complete Date control and calendar.
+- Independent Bold calendar text option.
+- Compact Aa control for visitors to select calendar size and bold text on the full page.
+- Browser-local visitor preferences with a Reset action that restores the site defaults.
+- Translated visual tooltip for the Aa control on hover and keyboard focus.
+
+### Changed
+
+- Replaced the day and month dropdown lists and the Show button on the full daily-content page.
+- Preserves the user's open or closed calendar state while navigating between dates.
+- Loads calendar data and appearance settings without reusing a stale browser or Joomla page-cache response.
+- Closes the Aa appearance panel when the visitor clicks anywhere outside it.
+
+### Preserved
+
+- Existing `?date=DD-MM` links, language switching, article loading, JComments integration, and Previous/Next navigation.
+- Existing language, category, link-target, date-field and saved-date settings during update.
+
 ## 1.1.0 — 2026-10-05
 
 ### Added

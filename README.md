@@ -7,6 +7,9 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 ## Features
 
 - full daily-content page with date navigation;
+- compact monthly calendar inside a collapsible Date control;
+- visual markers for dates with available published articles;
+- configurable calendar size, background opacity and bold text;
 - compact block for the current date;
 - automatic creation of the required `bsl-daily-date` custom field;
 - `DD-MM` date format;
@@ -25,7 +28,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 
 ## Installation
 
-1. Download `plg_content_bsldailycontent-1.1.0.zip` from the Releases page or the project website.
+1. Download `plg_content_bsldailycontent-1.3.0.zip` from the Releases page or the project website.
 2. In Joomla Administrator, open **System → Extensions → Install Extensions**.
 3. Upload the ZIP package.
 4. Open **System → Manage → Plugins** and select **Content - BSL Daily Content**.
@@ -50,18 +53,6 @@ Place this shortcode in a Joomla Custom module to render today's compact block:
 
 The shortcode should be stored as plain text. No PHP, iframe, script, or custom HTML player code is required.
 
-## Caching and midnight rollover
-
-BSL Daily Content does not create a separate cache for the `{bsldailycontenttoday}` block. The current date is determined using the Joomla site time zone whenever Joomla renders the module content.
-
-However, the shortcode is processed inside a Joomla Custom module. If **Advanced → Caching** is set to **Use Global**, Joomla may continue serving the block generated before midnight until the configured **Cache Time** expires.
-
-To make today's entry change immediately after midnight, set the Custom module option to:
-
-**Advanced → Caching → No Caching**
-
-A page already open in a browser does not refresh automatically at midnight. The visitor must reload it. Full-page caching, server-side caching and CDN caching may also delay the appearance of the new entry and should be configured separately.
-
 ## Adding daily content
 
 1. Create or edit an article in one of the configured categories.
@@ -70,6 +61,12 @@ A page already open in a browser does not refresh automatically at midnight. The
 4. Save and publish the article.
 
 Each date may be used only once within the same configured category. Changing the configured category does not move articles and does not delete stored dates.
+
+## Calendar appearance
+
+The full daily-content page uses a compact monthly calendar inside a collapsible Date control. In the plugin settings, **Calendar background opacity (%)** controls the background of both elements from `0` (fully transparent) to `100` (fully opaque). The default value is `75`. **Calendar size** provides Small, Medium and Large versions of the complete control, including its text, cells and spacing. **Bold calendar text** can emphasize all calendar labels and dates independently of the selected size.
+
+The administrator settings provide the site defaults. Visitors can use the compact **Aa** control on the full page to choose their own calendar size and bold text. The preference is stored locally in the visitor's browser and can be removed with **Reset**.
 
 ## Updating and migration
 
@@ -83,12 +80,12 @@ Migration from the legacy BSL Daily Reflections plugin is also supported. Replac
 
 Official downloads are served through the BSL-World download gateway:
 
-https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.1.0.zip&download=1&source=site
+https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.0.zip&download=1&source=site
 
-SHA-256 for version 1.1.0:
+SHA-256 for version 1.3.0:
 
 ```text
-7fb1afe3be24fcde9e11b828bc3d66e2b79b005bb16e3dbce0b98357b7eadc72
+94f77af3733eb03478b2a21460e14af827f4df3d4f18566fbbde6bebfedc23ae
 ```
 
 ## License

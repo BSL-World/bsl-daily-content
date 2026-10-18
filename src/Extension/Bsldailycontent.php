@@ -33,7 +33,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private const TODAY_SHORTCODE = '{bsldailycontenttoday}';
 
-    private const VERSION = '1.1.0';
+    private const VERSION = '1.3.0';
 
     private const DEFAULT_DATE_FIELD_ID = 0;
 
@@ -42,6 +42,8 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     private bool $scriptIncluded = false;
+
+    private bool $stylesheetIncluded = false;
 
     public static function getSubscribedEvents(): array
     {
@@ -137,6 +139,13 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
                 $fieldId
             )
             : null;
+        $availableDates = $dateIsValid && $categoryId > 0 && $fieldId > 0
+            ? $this->findAvailableDates(
+                $languageTag,
+                $categoryId,
+                $fieldId
+            )
+            : [];
 
         $result = [
             'success'        => $article !== null,
@@ -144,6 +153,10 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
             'language'       => $languageTag,
             'prev_date'      => $previousDate,
             'next_date'      => $nextDate,
+            'available_dates' => $availableDates,
+            'calendar_background_opacity' => $this->getCalendarBackgroundOpacity(),
+            'calendar_size' => $this->getCalendarSize(),
+            'calendar_bold' => $this->isCalendarBold(),
             'article_link'   => '',
             'title'          => '',
             'introtext'      => '',
@@ -278,11 +291,29 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private function renderFullPageMarkup(): string
     {
-        $day = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_DAY'));
-        $month = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_MONTH'));
-        $show = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_SHOW'));
+        $calendarBackgroundOpacity = $this->getCalendarBackgroundOpacity();
+        $calendarBackgroundOpacityCss = number_format(
+            $calendarBackgroundOpacity / 100,
+            2,
+            '.',
+            ''
+        );
+        $calendarSizeClass = ' calendar-size-'
+            . $this->getCalendarSize();
+        $calendarBoldClass = $this->isCalendarBold()
+            ? ' is-calendar-bold'
+            : '';
+        $date = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_DATE'));
         $previous = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_PREVIOUS'));
         $next = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_NEXT'));
+        $previousMonth = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_PREVIOUS_MONTH'));
+        $nextMonth = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_NEXT_MONTH'));
+        $appearanceLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_APPEARANCE_LABEL'));
+        $smallLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_SIZE_SMALL'));
+        $mediumLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_SIZE_MEDIUM'));
+        $largeLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_SIZE_LARGE'));
+        $boldLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_BOLD'));
+        $resetLabel = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_FRONTEND_RESET'));
         $loading = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_LOADING'));
         $notFound = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_NOT_FOUND'));
         $loadError = $this->escape(Text::_('PLG_CONTENT_BSLDAILYCONTENT_LOAD_ERROR'));
@@ -355,21 +386,33 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
         $assets = '';
 
+        if (!$this->stylesheetIncluded) {
+            $stylesheetUri = Uri::root(true)
+                . '/media/plg_content_bsldailycontent/css/daily-content.css?v='
+                . rawurlencode(self::VERSION);
+            $escapedStylesheetUri = htmlspecialchars($stylesheetUri, ENT_QUOTES, 'UTF-8');
+            $assets .= "\n<link rel=\"stylesheet\" href=\"{$escapedStylesheetUri}\">";
+            $this->stylesheetIncluded = true;
+        }
+
         if (!$this->scriptIncluded) {
             $scriptUri = Uri::root(true)
                 . '/media/plg_content_bsldailycontent/js/daily-content.js?v='
                 . rawurlencode(self::VERSION);
             $escapedScriptUri = htmlspecialchars($scriptUri, ENT_QUOTES, 'UTF-8');
-            $assets = "\n<script src=\"{$escapedScriptUri}\" defer></script>";
+            $assets .= "\n<script src=\"{$escapedScriptUri}\" defer></script>";
             $this->scriptIncluded = true;
         }
 
         return <<<HTML
 <div id="daily-navigation"
-     class="bsl-daily-content"
+     class="bsl-daily-content{$calendarSizeClass}{$calendarBoldClass}"
+     style="--bsl-daily-content-background-opacity: {$calendarBackgroundOpacityCss}"
      data-bsl-daily-content
      data-endpoint="{$endpoint}"
      data-months="{$monthsAttribute}"
+     data-previous-month-label="{$previousMonth}"
+     data-next-month-label="{$nextMonth}"
      data-loading-message="{$loading}"
      data-not-found-message="{$notFound}"
      data-load-error-message="{$loadError}"
@@ -379,16 +422,26 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
      data-jcomments-stylesheet="{$jcommentsStylesheet}"
      data-smilies-base="{$smiliesBase}"
      data-comments-strings="{$commentsStringsAttribute}">
-    <div class="row mb-4">
-        <div class="col-auto">
-            <select id="day-select" class="form-select" data-bsl-day aria-label="{$day}"></select>
-        </div>
-        <div class="col-auto">
-            <select id="month-select" class="form-select" data-bsl-month aria-label="{$month}"></select>
-        </div>
-        <div class="col-auto">
-            <button id="show-btn" type="button" class="btn btn-primary" data-bsl-show>{$show}</button>
-        </div>
+    <div class="bsl-daily-content__toolbar">
+        <details class="bsl-daily-content__date-picker" data-bsl-date-picker>
+            <summary class="bsl-daily-content__date-picker-summary">{$date}</summary>
+            <div class="bsl-daily-content__calendar" data-bsl-calendar></div>
+        </details>
+
+        <details class="bsl-daily-content__appearance" data-bsl-appearance>
+            <summary
+                class="bsl-daily-content__appearance-summary"
+                data-tooltip="{$appearanceLabel}"
+                aria-label="{$appearanceLabel}"
+            >Aa</summary>
+            <div class="bsl-daily-content__appearance-panel" role="group" aria-label="{$appearanceLabel}">
+                <button type="button" data-bsl-size="small" title="{$smallLabel}" aria-label="{$smallLabel}">A−</button>
+                <button type="button" data-bsl-size="medium" title="{$mediumLabel}" aria-label="{$mediumLabel}">A</button>
+                <button type="button" data-bsl-size="large" title="{$largeLabel}" aria-label="{$largeLabel}">A+</button>
+                <button type="button" data-bsl-bold title="{$boldLabel}" aria-label="{$boldLabel}" aria-pressed="false"><strong>B</strong></button>
+                <button type="button" class="bsl-daily-content__appearance-reset" data-bsl-reset>{$resetLabel}</button>
+            </div>
+        </details>
     </div>
 
     <div id="daily-content" data-bsl-content>
@@ -714,5 +767,107 @@ HTML;
         $article = $database->loadAssoc();
 
         return is_array($article) ? $article : null;
+    }
+
+    private function findAvailableDates(
+        string $languageTag,
+        int $categoryId,
+        int $fieldId
+    ): array
+    {
+        $database = $this->getDatabase();
+        $viewLevels = array_map(
+            'intval',
+            $this->getApplication()->getIdentity()->getAuthorisedViewLevels()
+        );
+
+        if ($viewLevels === []) {
+            return [];
+        }
+
+        $accessList = implode(',', $viewLevels);
+        $now = $database->quote(
+            (new DateTimeImmutable('now', new DateTimeZone('UTC')))
+                ->format('Y-m-d H:i:s')
+        );
+        $query = $database->getQuery(true)
+            ->select($database->quoteName('field_values.value'))
+            ->from($database->quoteName('#__content', 'content'))
+            ->innerJoin(
+                $database->quoteName('#__categories', 'category')
+                . ' ON ' . $database->quoteName('category.id')
+                . ' = ' . $database->quoteName('content.catid')
+            )
+            ->innerJoin(
+                $database->quoteName('#__fields_values', 'field_values')
+                . ' ON ' . $database->quoteName('field_values.item_id')
+                . ' = ' . $database->quoteName('content.id')
+            )
+            ->where($database->quoteName('content.catid') . ' = ' . $categoryId)
+            ->where($database->quoteName('field_values.field_id') . ' = ' . $fieldId)
+            ->where($database->quoteName('content.state') . ' = 1')
+            ->where($database->quoteName('category.published') . ' = 1')
+            ->where($database->quoteName('content.access') . ' IN (' . $accessList . ')')
+            ->where($database->quoteName('category.access') . ' IN (' . $accessList . ')')
+            ->where(
+                '(' . $database->quoteName('content.publish_up')
+                . ' IS NULL OR ' . $database->quoteName('content.publish_up')
+                . ' <= ' . $now . ')'
+            )
+            ->where(
+                '(' . $database->quoteName('content.publish_down')
+                . ' IS NULL OR ' . $database->quoteName('content.publish_down')
+                . ' >= ' . $now . ')'
+            )
+            ->where(
+                $database->quoteName('content.language')
+                . ' = ' . $database->quote($languageTag)
+            )
+            ->where(
+                $database->quoteName('category.language')
+                . ' = ' . $database->quote($languageTag)
+            )
+            ->order($database->quoteName('field_values.value') . ' ASC');
+
+        $values = $database->setQuery($query)->loadColumn();
+        $dates = array_values(array_unique(array_filter(
+            array_map('strval', is_array($values) ? $values : []),
+            static fn (string $value): bool => preg_match(
+                '/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])$/',
+                $value
+            ) === 1
+        )));
+
+        sort($dates, SORT_STRING);
+
+        return $dates;
+    }
+
+    private function getCalendarBackgroundOpacity(): int
+    {
+        return max(
+            0,
+            min(
+                100,
+                (int) $this->params->get('calendar_background_opacity', 75)
+            )
+        );
+    }
+
+    private function getCalendarSize(): string
+    {
+        $size = (string) $this->params->get(
+            'calendar_font_size',
+            'medium'
+        );
+
+        return in_array($size, ['small', 'medium', 'large'], true)
+            ? $size
+            : 'medium';
+    }
+
+    private function isCalendarBold(): bool
+    {
+        return (int) $this->params->get('calendar_bold', 0) === 1;
     }
 }
