@@ -15,7 +15,7 @@
         <tags>
             <tag>stable</tag>
         </tags>
-        <sha256>47b5831876dac94c235dcf94681e9a58940060dfcf96b43bbcb382331d178c5f</sha256>
+        <sha256>663c4c7dd143246cd1d1d3afd0f6729b7376cf57eaa9d32f8ad67b03f8254138</sha256>
         <maintainer>Vasilyev Alexander</maintainer>
         <maintainerurl>https://bsl-world.ru/</maintainerurl>
         <targetplatform name="joomla" version="5\.[0-9]+" />
@@ -37,7 +37,7 @@
         <tags>
             <tag>stable</tag>
         </tags>
-        <sha256>47b5831876dac94c235dcf94681e9a58940060dfcf96b43bbcb382331d178c5f</sha256>
+        <sha256>663c4c7dd143246cd1d1d3afd0f6729b7376cf57eaa9d32f8ad67b03f8254138</sha256>
         <maintainer>Vasilyev Alexander</maintainer>
         <maintainerurl>https://bsl-world.ru/</maintainerurl>
         <targetplatform name="joomla" version="6\.[0-9]+" />

@@ -90,7 +90,7 @@ https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsl
 SHA-256 for version 1.3.1:
 
 ```text
-47b5831876dac94c235dcf94681e9a58940060dfcf96b43bbcb382331d178c5f
+663c4c7dd143246cd1d1d3afd0f6729b7376cf57eaa9d32f8ad67b03f8254138
 ```
 
 ## License
