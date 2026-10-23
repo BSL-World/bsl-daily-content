@@ -2,12 +2,12 @@
 <extension type="plugin" group="content" method="upgrade">
     <name>Content - BSL Daily Content</name>
     <author>Vasilyev Alexander</author>
-    <creationDate>2026-10-18</creationDate>
+    <creationDate>2026-10-23</creationDate>
     <copyright>Copyright (C) 2026 Vasilyev Alexander. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later</license>
     <authorEmail>soft@BSL-World.ru</authorEmail>
     <authorUrl>https://bsl-world.ru</authorUrl>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <description>PLG_CONTENT_BSLDAILYCONTENT_XML_DESCRIPTION</description>
     <namespace path="src">BSLWorld\Plugin\Content\Bsldailycontent</namespace>
     <scriptfile>script.php</scriptfile>
@@ -129,6 +129,33 @@
                 label="PLG_CONTENT_BSLDAILYCONTENT_FIELDSET_APPEARANCE_LABEL"
                 addfieldprefix="BSLWorld\Plugin\Content\Bsldailycontent\Field"
             >
+                <field
+                    name="accent_color_source"
+                    type="list"
+                    default="h1"
+                    filter="cmd"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_SOURCE_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_SOURCE_DESC"
+                >
+                    <option value="h1">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H1</option>
+                    <option value="h2">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H2</option>
+                    <option value="h3">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H3</option>
+                    <option value="h4">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H4</option>
+                    <option value="h5">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H5</option>
+                    <option value="h6">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_H6</option>
+                    <option value="navigation">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_NAVIGATION</option>
+                    <option value="links">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_LINKS</option>
+                    <option value="custom">PLG_CONTENT_BSLDAILYCONTENT_ACCENT_COLOR_CUSTOM</option>
+                </field>
+                <field
+                    name="custom_accent_color"
+                    type="color"
+                    default="#0d6efd"
+                    format="hex"
+                    showon="accent_color_source:custom"
+                    label="PLG_CONTENT_BSLDAILYCONTENT_CUSTOM_ACCENT_COLOR_LABEL"
+                    description="PLG_CONTENT_BSLDAILYCONTENT_CUSTOM_ACCENT_COLOR_DESC"
+                />
                 <field
                     name="calendar_background_opacity"
                     type="opacity"

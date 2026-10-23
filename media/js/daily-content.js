@@ -29,6 +29,135 @@
         return `${padNumber(now.getDate())}-${padNumber(now.getMonth() + 1)}`;
     };
 
+    const parseComputedRgb = (value) => {
+        const match = String(value).match(
+            /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i,
+        );
+
+        if (!match) {
+            return null;
+        }
+
+        return match.slice(1, 4).map((part) => (
+            Math.max(0, Math.min(255, Math.round(Number.parseFloat(part))))
+        ));
+    };
+
+    const parseHexRgb = (value) => {
+        const match = String(value).trim().match(/^#([0-9a-f]{6})$/i);
+
+        if (!match) {
+            return null;
+        }
+
+        return [0, 2, 4].map((offset) => (
+            Number.parseInt(match[1].slice(offset, offset + 2), 16)
+        ));
+    };
+
+    const relativeLuminance = (rgb) => {
+        const channels = rgb.map((channel) => {
+            const value = channel / 255;
+
+            return value <= 0.04045
+                ? value / 12.92
+                : ((value + 0.055) / 1.055) ** 2.4;
+        });
+
+        return (0.2126 * channels[0])
+            + (0.7152 * channels[1])
+            + (0.0722 * channels[2]);
+    };
+
+    const contrastRatio = (first, second) => {
+        const lighter = Math.max(first, second);
+        const darker = Math.min(first, second);
+
+        return (lighter + 0.05) / (darker + 0.05);
+    };
+
+    const findAccentElement = (source) => {
+        if (/^h[1-6]$/.test(source)) {
+            return document.querySelector(source);
+        }
+
+        if (source === 'navigation') {
+            return document.querySelector(
+                'nav a, .navbar a, .mod-menu a',
+            );
+        }
+
+        if (source === 'links') {
+            return document.querySelector(
+                'main a[href]:not(.btn), article a[href]:not(.btn), a[href]:not(.btn)',
+            );
+        }
+
+        return null;
+    };
+
+    const applyConfiguredAccent = (container) => {
+        const source = container.dataset.accentColorSource || 'h1';
+        let rgb = source === 'custom'
+            ? parseHexRgb(container.dataset.customAccentColor)
+            : null;
+        let element = source === 'custom'
+            ? null
+            : findAccentElement(source);
+        let probe = null;
+
+        if (!rgb && !element) {
+            element = document.querySelector('h1');
+        }
+
+        if (!rgb && !element) {
+            probe = document.createElement('h1');
+            probe.setAttribute('aria-hidden', 'true');
+            probe.style.cssText = [
+                'position:absolute',
+                'left:-10000px',
+                'top:auto',
+                'width:1px',
+                'height:1px',
+                'overflow:hidden',
+                'visibility:hidden',
+                'pointer-events:none',
+            ].join(';');
+            container.appendChild(probe);
+            element = probe;
+        }
+
+        if (!rgb && element) {
+            rgb = parseComputedRgb(window.getComputedStyle(element).color);
+        }
+
+        if (probe) {
+            probe.remove();
+        }
+
+        if (!rgb) {
+            return;
+        }
+
+        const accent = `rgb(${rgb.join(', ')})`;
+        const accentLuminance = relativeLuminance(rgb);
+        const dark = [33, 37, 41];
+        const contrast = contrastRatio(accentLuminance, relativeLuminance(dark))
+            >= contrastRatio(accentLuminance, 1)
+            ? '#212529'
+            : '#fff';
+
+        container.style.setProperty('--bsl-daily-content-accent', accent);
+        container.style.setProperty(
+            '--bsl-daily-content-accent-rgb',
+            rgb.join(', '),
+        );
+        container.style.setProperty(
+            '--bsl-daily-content-accent-contrast',
+            contrast,
+        );
+    };
+
     const preserveDatePickerState = (datePicker) => {
         const storageKey = `bsl-daily-content:date-picker:${window.location.pathname}`;
 
@@ -528,6 +657,7 @@
             return;
         }
 
+        applyConfiguredAccent(container);
         preserveDatePickerState(datePicker);
         const appearanceControls = initializeAppearanceControls(container);
 

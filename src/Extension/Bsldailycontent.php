@@ -33,7 +33,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private const TODAY_SHORTCODE = '{bsldailycontenttoday}';
 
-    private const VERSION = '1.3.0';
+    private const VERSION = '1.3.1';
 
     private const DEFAULT_DATE_FIELD_ID = 0;
 
@@ -291,6 +291,8 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private function renderFullPageMarkup(): string
     {
+        $accentColorSource = $this->escape($this->getAccentColorSource());
+        $customAccentColor = $this->escape($this->getCustomAccentColor());
         $calendarBackgroundOpacity = $this->getCalendarBackgroundOpacity();
         $calendarBackgroundOpacityCss = number_format(
             $calendarBackgroundOpacity / 100,
@@ -409,6 +411,8 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
      class="bsl-daily-content{$calendarSizeClass}{$calendarBoldClass}"
      style="--bsl-daily-content-background-opacity: {$calendarBackgroundOpacityCss}"
      data-bsl-daily-content
+     data-accent-color-source="{$accentColorSource}"
+     data-custom-accent-color="{$customAccentColor}"
      data-endpoint="{$endpoint}"
      data-months="{$monthsAttribute}"
      data-previous-month-label="{$previousMonth}"
@@ -852,6 +856,41 @@ HTML;
                 (int) $this->params->get('calendar_background_opacity', 75)
             )
         );
+    }
+
+    private function getAccentColorSource(): string
+    {
+        $source = (string) $this->params->get(
+            'accent_color_source',
+            'h1'
+        );
+        $allowedSources = [
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+            'navigation',
+            'links',
+            'custom',
+        ];
+
+        return in_array($source, $allowedSources, true)
+            ? $source
+            : 'h1';
+    }
+
+    private function getCustomAccentColor(): string
+    {
+        $color = (string) $this->params->get(
+            'custom_accent_color',
+            '#0d6efd'
+        );
+
+        return preg_match('/^#[0-9a-fA-F]{6}$/', $color) === 1
+            ? strtolower($color)
+            : '#0d6efd';
     }
 
     private function getCalendarSize(): string

@@ -4,6 +4,32 @@
         <element>bsldailycontent</element>
         <type>plugin</type>
         <folder>content</folder>
+        <version>1.3.1</version>
+
+        <addition>
+            <item>Adds configurable calendar accent-color sources: H1-H6, navigation, links, or a custom color.</item>
+            <item>Adds automatic contrasting foreground color for calendar controls.</item>
+        </addition>
+
+        <change>
+            <item>Derives the calendar accent color from the selected visible template element.</item>
+            <item>Falls back to H1 and then Bootstrap Primary when the selected template element is unavailable.</item>
+        </change>
+
+        <fix>
+            <item>Calendar controls no longer remain blue on templates that do not expose their actual visual accent through Bootstrap's standard Primary variable.</item>
+        </fix>
+
+        <note>
+            <item>Version 1.2.0 was used during internal development and testing but was not published as a separate public release. Its completed changes were incorporated into version 1.3.0.</item>
+            <item>Existing calendar appearance settings, language settings, categories, articles and saved dates are preserved.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
         <version>1.3.0</version>
 
         <addition>

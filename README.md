@@ -10,6 +10,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 - compact monthly calendar inside a collapsible Date control;
 - visual markers for dates with available published articles;
 - configurable calendar size, background opacity and bold text;
+- configurable calendar accent-color source: H1–H6, navigation, links, or a custom color;
 - compact block for the current date;
 - automatic creation of the required `bsl-daily-date` custom field;
 - `DD-MM` date format;
@@ -28,7 +29,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 
 ## Installation
 
-1. Download `plg_content_bsldailycontent-1.3.0.zip` from the Releases page or the project website.
+1. Download `plg_content_bsldailycontent-1.3.1.zip` from the Releases page or the project website.
 2. In Joomla Administrator, open **System → Extensions → Install Extensions**.
 3. Upload the ZIP package.
 4. Open **System → Manage → Plugins** and select **Content - BSL Daily Content**.
@@ -68,6 +69,8 @@ The full daily-content page uses a compact monthly calendar inside a collapsible
 
 The administrator settings provide the site defaults. Visitors can use the compact **Aa** control on the full page to choose their own calendar size and bold text. The preference is stored locally in the visitor's browser and can be removed with **Reset**.
 
+The **Accent color source** setting controls which visible template element supplies the calendar accent color. The administrator can select H1–H6, navigation, links, or a custom color. If the selected template element is unavailable, the plugin falls back to H1 and then Bootstrap Primary. A contrasting foreground color is selected automatically.
+
 ## Updating and migration
 
 The plugin supports normal in-place updates through the Joomla Update System.
@@ -76,16 +79,18 @@ When updating from version 1.0.0, existing Russian and English settings are move
 
 Migration from the legacy BSL Daily Reflections plugin is also supported. Replace the legacy shortcodes and verify BSL Daily Content before disabling or uninstalling the old plugin.
 
+Version 1.2.0 was used during internal development and testing but was not published as a separate public release. Its completed changes were incorporated into version 1.3.0.
+
 ## Release package
 
 Official downloads are served through the BSL-World download gateway:
 
-https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.0.zip&download=1&source=site
+https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.1.zip&download=1&source=site
 
-SHA-256 for version 1.3.0:
+SHA-256 for version 1.3.1:
 
 ```text
-94f77af3733eb03478b2a21460e14af827f4df3d4f18566fbbde6bebfedc23ae
+47b5831876dac94c235dcf94681e9a58940060dfcf96b43bbcb382331d178c5f
 ```
 
 ## License

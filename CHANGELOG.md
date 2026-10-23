@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.3.1 — 2026-10-23
+
+### Added
+
+- Configurable calendar accent-color source: H1–H6, navigation, links, or a custom color.
+- Automatic contrasting foreground color for calendar controls.
+
+### Changed
+
+- Calendar controls now derive their accent color from the selected visible template element.
+- If the selected template element is unavailable, the plugin falls back to H1 and then Bootstrap Primary.
+
+### Fixed
+
+- Calendar controls no longer remain blue on templates that do not expose their actual visual accent through Bootstrap's standard Primary variable.
+
+### Release history note
+
+- Version 1.2.0 was used during internal development and testing but was not published as a separate public release. Its completed changes were incorporated into version 1.3.0.
+
 ## 1.3.0 — 2026-10-18
 
 ### Added
