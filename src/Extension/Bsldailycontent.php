@@ -33,7 +33,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private const TODAY_SHORTCODE = '{bsldailycontenttoday}';
 
-    private const VERSION = '1.3.1';
+    private const VERSION = '1.3.2';
 
     private const DEFAULT_DATE_FIELD_ID = 0;
 

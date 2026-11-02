@@ -1,5 +1,7 @@
 # BSL Daily Content
 
+Current version: **1.3.2** (2026-11-02). Verified on Joomla 5 and Joomla 6.
+
 BSL Daily Content is a free Joomla content plugin for publishing calendar-based articles. It can render a full daily-content page from `{bsldailycontent}` and an optional compact “Today in...” block from `{bsldailycontenttoday}`.
 
 The plugin is suitable for daily reflections, holidays, quotes, historical events, affirmations, recipes, tips, horoscopes, and other content assigned to a recurring day and month.
@@ -8,6 +10,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 
 - full daily-content page with date navigation;
 - compact monthly calendar inside a collapsible Date control;
+- complete calendar weeks with muted, clickable dates from adjacent months;
 - visual markers for dates with available published articles;
 - configurable calendar size, background opacity and bold text;
 - configurable calendar accent-color source: H1–H6, navigation, links, or a custom color;
@@ -29,7 +32,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 
 ## Installation
 
-1. Download `plg_content_bsldailycontent-1.3.1.zip` from the Releases page or the project website.
+1. Download `plg_content_bsldailycontent-1.3.2.zip` from the Releases page or the project website.
 2. In Joomla Administrator, open **System → Extensions → Install Extensions**.
 3. Upload the ZIP package.
 4. Open **System → Manage → Plugins** and select **Content - BSL Daily Content**.
@@ -65,6 +68,8 @@ Each date may be used only once within the same configured category. Changing th
 
 ## Calendar appearance
 
+The calendar shows complete weeks, replacing empty cells with readable, muted dates from adjacent months. Click any of these dates to open its entry directly; the calendar then shows the selected month. Available-article markers, today and selected-date highlighting, hover and keyboard focus also work for adjacent dates. Only the required weeks are shown, without an unnecessary sixth row.
+
 The full daily-content page uses a compact monthly calendar inside a collapsible Date control. In the plugin settings, **Calendar background opacity (%)** controls the background of both elements from `0` (fully transparent) to `100` (fully opaque). The default value is `75`. **Calendar size** provides Small, Medium and Large versions of the complete control, including its text, cells and spacing. **Bold calendar text** can emphasize all calendar labels and dates independently of the selected size.
 
 The administrator settings provide the site defaults. Visitors can use the compact **Aa** control on the full page to choose their own calendar size and bold text. The preference is stored locally in the visitor's browser and can be removed with **Reset**.
@@ -85,12 +90,12 @@ Version 1.2.0 was used during internal development and testing but was not publi
 
 Official downloads are served through the BSL-World download gateway:
 
-https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.1.zip&download=1&source=site
+https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.2.zip&download=1&source=site
 
-SHA-256 for version 1.3.1:
+SHA-256 for version 1.3.2:
 
 ```text
-663c4c7dd143246cd1d1d3afd0f6729b7376cf57eaa9d32f8ad67b03f8254138
+27c265d5c0240e14c549cf49f1ec0ec3b8729c0ba9a71fc8894762b9f8971deb
 ```
 
 ## License

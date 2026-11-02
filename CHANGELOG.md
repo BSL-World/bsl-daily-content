@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.3.2 — 2026-11-02
+
+### Changed
+
+- The calendar now always shows complete calendar weeks.
+- Empty cells at the beginning and end of the month are replaced with dates from the previous and next months.
+- Dates from adjacent months appear muted but remain easy to read.
+- Dates from adjacent months remain fully clickable buttons.
+- Visitors can select a date in the previous or next month without first switching months.
+- After selecting a date, the calendar shows the month of that date.
+- Dates from adjacent months retain available-article markers and highlighting for today and the selected date.
+- Hover and keyboard-focus states are preserved.
+- The calendar ends with the last required complete week and does not add an unnecessary sixth row.
+- Existing settings, articles, saved dates, languages, shortcodes and appearance are preserved.
+
+### Verified
+
+- Installation and calendar behavior tested on local Joomla 5 and Joomla 6 sites.
+
 ## 1.3.1 — 2026-10-23
 
 ### Added

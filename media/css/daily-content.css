@@ -267,7 +267,6 @@
     text-transform: uppercase;
 }
 
-.bsl-daily-content__calendar-empty,
 .bsl-daily-content__calendar-day {
     aspect-ratio: 1;
 }
@@ -277,6 +276,16 @@
     font-size: .7rem;
     font-weight: 500;
     cursor: pointer;
+}
+
+.bsl-daily-content__calendar-day.is-outside-month {
+    opacity: .55;
+}
+
+.bsl-daily-content__calendar-day.is-outside-month:hover,
+.bsl-daily-content__calendar-day.is-outside-month:focus-visible,
+.bsl-daily-content__calendar-day.is-outside-month.is-selected {
+    opacity: 1;
 }
 
 .bsl-daily-content__calendar-day.is-available {

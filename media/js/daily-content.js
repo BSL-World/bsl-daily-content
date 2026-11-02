@@ -743,16 +743,17 @@
                 grid.appendChild(label);
             });
 
-            for (let index = 0; index < firstWeekday; index += 1) {
-                const emptyCell = document.createElement('span');
-                emptyCell.className = 'bsl-daily-content__calendar-empty';
-                emptyCell.setAttribute('aria-hidden', 'true');
-                grid.appendChild(emptyCell);
-            }
+            const cellCount = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
 
-            for (let day = 1; day <= daysInMonth; day += 1) {
-                const date = `${padNumber(day)}-${padNumber(displayedMonth)}`;
-                const dateObject = new Date(Date.UTC(displayedYear, displayedMonth - 1, day));
+            for (let index = 0; index < cellCount; index += 1) {
+                const dateObject = new Date(Date.UTC(
+                    displayedYear,
+                    displayedMonth - 1,
+                    index - firstWeekday + 1,
+                ));
+                const day = dateObject.getUTCDate();
+                const month = dateObject.getUTCMonth() + 1;
+                const date = `${padNumber(day)}-${padNumber(month)}`;
                 const button = document.createElement('button');
 
                 button.type = 'button';
@@ -760,6 +761,10 @@
                 button.textContent = String(day);
                 button.setAttribute('role', 'gridcell');
                 button.setAttribute('aria-label', dateFormatter.format(dateObject));
+
+                if (month !== displayedMonth) {
+                    button.classList.add('is-outside-month');
+                }
 
                 if (availableDates.has(date)) {
                     button.classList.add('is-available');
