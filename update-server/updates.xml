@@ -10,7 +10,7 @@
         <version>1.3.2</version>
         <infourl title="BSL Daily Content">https://bsl-world.ru/</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;file=plg_content_bsldailycontent-1.3.2.zip&amp;source=updater</downloadurl>
+            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;source=updater&amp;file=plg_content_bsldailycontent-1.3.2.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
@@ -32,7 +32,7 @@
         <version>1.3.2</version>
         <infourl title="BSL Daily Content">https://bsl-world.ru/</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;file=plg_content_bsldailycontent-1.3.2.zip&amp;source=updater</downloadurl>
+            <downloadurl type="full" format="zip">https://bsl-world.ru/download.php?product=bsl-daily-content&amp;source=updater&amp;file=plg_content_bsldailycontent-1.3.2.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
