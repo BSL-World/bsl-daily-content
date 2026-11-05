@@ -4,6 +4,20 @@
         <element>bsldailycontent</element>
         <type>plugin</type>
         <folder>content</folder>
+        <version>1.3.3</version>
+        <fix>
+            <item>Calendar weekdays and date labels now use the current Joomla language instead of the template HTML language or browser language.</item>
+            <item>English calendars display Mon–Sun even when the template HTML language is Russian.</item>
+        </fix>
+        <note>
+            <item>Released on 2026-11-05.</item>
+        </note>
+    </changelog>
+
+    <changelog>
+        <element>bsldailycontent</element>
+        <type>plugin</type>
+        <folder>content</folder>
         <version>1.3.2</version>
 
         <change>

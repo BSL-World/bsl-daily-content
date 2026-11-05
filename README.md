@@ -1,6 +1,6 @@
 # BSL Daily Content
 
-Current version: **1.3.2** (2026-11-02). Verified on Joomla 5 and Joomla 6.
+Current version: **1.3.3** (2026-11-05). Verified on Joomla 5 and Joomla 6.
 
 BSL Daily Content is a free Joomla content plugin for publishing calendar-based articles. It can render a full daily-content page from `{bsldailycontent}` and an optional compact “Today in...” block from `{bsldailycontenttoday}`.
 
@@ -32,7 +32,7 @@ The plugin is suitable for daily reflections, holidays, quotes, historical event
 
 ## Installation
 
-1. Download `plg_content_bsldailycontent-1.3.2.zip` from the Releases page or the project website.
+1. Download `plg_content_bsldailycontent-1.3.3.zip` from the Releases page or the project website.
 2. In Joomla Administrator, open **System → Extensions → Install Extensions**.
 3. Upload the ZIP package.
 4. Open **System → Manage → Plugins** and select **Content - BSL Daily Content**.
@@ -90,12 +90,12 @@ Version 1.2.0 was used during internal development and testing but was not publi
 
 Official downloads are served through the BSL-World download gateway:
 
-https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.2.zip&download=1&source=site
+https://bsl-world.ru/download.php?product=bsl-daily-content&file=plg_content_bsldailycontent-1.3.3.zip&download=1&source=site
 
-SHA-256 for version 1.3.2:
+SHA-256 for version 1.3.3:
 
 ```text
-27c265d5c0240e14c549cf49f1ec0ec3b8729c0ba9a71fc8894762b9f8971deb
+279f60e38e62bda30ff99ab41ce754fbc1a1c156b7d2d9612e35e4bcdf304c7f
 ```
 
 ## License

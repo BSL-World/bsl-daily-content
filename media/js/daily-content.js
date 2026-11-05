@@ -667,7 +667,7 @@
         const displayedYear = now.getFullYear();
         let displayedMonth = parsedDate.month;
         let availableDates = new Set();
-        const locale = document.documentElement.lang || navigator.language || 'en-GB';
+        const locale = container.dataset.locale || document.documentElement.lang || navigator.language || 'en-GB';
         const weekdayFormatter = new Intl.DateTimeFormat(locale, {
             weekday: 'short',
             timeZone: 'UTC',

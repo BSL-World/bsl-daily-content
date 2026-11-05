@@ -33,7 +33,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
 
     private const TODAY_SHORTCODE = '{bsldailycontenttoday}';
 
-    private const VERSION = '1.3.2';
+    private const VERSION = '1.3.3';
 
     private const DEFAULT_DATE_FIELD_ID = 0;
 
@@ -333,6 +333,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
         );
         $monthsAttribute = $this->escape($encodedMonths ?: '[]');
         $languageTag = $this->getApplication()->getLanguage()->getTag();
+        $calendarLocale = $this->escape($languageTag);
         $languages = LanguageHelper::getLanguages('lang_code');
         $languageSef = isset($languages[$languageTag])
             ? (string) $languages[$languageTag]->sef
@@ -411,6 +412,7 @@ final class Bsldailycontent extends CMSPlugin implements SubscriberInterface
      class="bsl-daily-content{$calendarSizeClass}{$calendarBoldClass}"
      style="--bsl-daily-content-background-opacity: {$calendarBackgroundOpacityCss}"
      data-bsl-daily-content
+     data-locale="{$calendarLocale}"
      data-accent-color-source="{$accentColorSource}"
      data-custom-accent-color="{$customAccentColor}"
      data-endpoint="{$endpoint}"

@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.3 — 2026-11-05
+
+### Fixed
+
+- Calendar weekdays and date labels now use the current Joomla language instead of the template HTML language or browser language.
+- English calendars display Mon–Sun even when the template HTML language is Russian.
+
+### Verified
+
+- Installation and updates from 1.3.2 tested on local Joomla 5.4.10 and Joomla 6.1.4 sites.
+- English and Russian calendar labels verified, including an English page with a Russian HTML language.
+
 ## 1.3.2 — 2026-11-02
 
 ### Changed
